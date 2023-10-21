@@ -249,24 +249,23 @@ class Cloudarcade_Wp {
 			$settings->get_option( 'db_name', 'cloudarcade_db_settings', '' ) != '' &&
 			$settings->get_option( 'db_host', 'cloudarcade_db_settings', '' ) != ''
 		 ){
-			$second_db = new wpdb( 
+			if (@mysqli_connect(
+				$settings->get_option( 'db_host', 'cloudarcade_db_settings', '' ),
+				$settings->get_option( 'db_user', 'cloudarcade_db_settings', '' ),
+				$settings->get_option( 'db_pass', 'cloudarcade_db_settings', '' )
+			)) $second_db = new wpdb(
 				$settings->get_option( 'db_user', 'cloudarcade_db_settings', '' ), 
 				$settings->get_option( 'db_pass', 'cloudarcade_db_settings', '' ), 
 				$settings->get_option( 'db_name', 'cloudarcade_db_settings', '' ),
 				$settings->get_option( 'db_host', 'cloudarcade_db_settings', '' )
 			);  // use your actual database info here
-
-			//var_dump( $second_db );
-			//var_dump( $second_db->query("SELECT *") );
-			if( is_wp_error( $second_db->error ) ){
-				add_action( 'admin_notices', function () {
-					?>
-					<div class="notice notice-error is-dismissible">
-						<p><?php _e( 'Cloudarcade DB Error! Please, check credentials!', 'sample-text-domain' ); ?></p>
-					</div>
-					<?php
-				} );
-			}
+			else add_action( 'admin_notices', function () {
+				?>
+				<div class="notice notice-error is-dismissible">
+					<p><?php _e( 'Cloudarcade DB Error! Please, check credentials!', 'sample-text-domain' ); ?></p>
+				</div>
+				<?php
+			});
 		 }
         
     }
