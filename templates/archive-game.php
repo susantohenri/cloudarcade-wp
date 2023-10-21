@@ -34,7 +34,7 @@ $game_query = new WP_Query($args);
     $total = $game_query->found_posts;
 
     $paged = get_query_var('paged') ? get_query_var('paged') : 1;
-    $posts_per_page = get_option('posts_per_page');
+    $posts_per_page = $settings->get_option( 'posts_number', 'cloudarcade_basics_settings', 10 );
     $from = $posts_per_page * ($paged - 1) + 1;
     $to = ($total > $paged * $posts_per_page) ? $paged * $posts_per_page : $total;
 
