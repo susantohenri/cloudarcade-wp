@@ -18,6 +18,7 @@ class cloudarcadeSettingsAPI {
 
     public function __construct() {
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+        add_filter('pre_update_option_cloudarcade_db_settings', array( $this, 'validate_db_connection' ) );
     }
 
     /**
@@ -518,6 +519,7 @@ class cloudarcadeSettingsAPI {
     function show_forms() {
         ?>
         <div class="metabox-holder">
+            <?php settings_errors('cloudarcade_db_settings'); ?>`
             <?php foreach ( $this->settings_sections as $form ) { ?>
                 <div id="<?php echo $form['id']; ?>" class="group" style="display: none;">
                     <form method="post" action="options.php">
@@ -643,4 +645,17 @@ class cloudarcadeSettingsAPI {
         endif;
     }
 
+    function validate_db_connection ($option) {
+        if (@mysqli_connect(
+            $option['db_host'],
+            $option['db_user'],
+            $option['db_pass']
+        )) return $option;
+        else {
+            foreach (['name', 'user', 'host', 'pass'] as $db_attr)
+                $option["db_{$db_attr}"] = $this->get_option( "db_{$db_attr}", 'cloudarcade_db_settings', '' );
+            add_settings_error('cloudarcade_db_settings','cloudarcade_db_settings','Invalid Credentials! setting not saved!','error');
+            return $option;
+        }
+    }
 }

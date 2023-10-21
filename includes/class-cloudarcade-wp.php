@@ -252,7 +252,8 @@ class Cloudarcade_Wp {
 			if (@mysqli_connect(
 				$settings->get_option( 'db_host', 'cloudarcade_db_settings', '' ),
 				$settings->get_option( 'db_user', 'cloudarcade_db_settings', '' ),
-				$settings->get_option( 'db_pass', 'cloudarcade_db_settings', '' )
+				$settings->get_option( 'db_pass', 'cloudarcade_db_settings', '' ),
+				$settings->get_option( 'db_name', 'cloudarcade_db_settings', '' )
 			)) $second_db = new wpdb(
 				$settings->get_option( 'db_user', 'cloudarcade_db_settings', '' ), 
 				$settings->get_option( 'db_pass', 'cloudarcade_db_settings', '' ), 
