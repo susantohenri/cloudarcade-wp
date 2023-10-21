@@ -10,13 +10,14 @@ class Cloudarcade_Wp_Post_Types {
 	}
 
 	public function create_game_post_type() {
+		$settings = new cloudarcadeSettingsAPI();
 		$args = array(
 			'public' => true,
 			'label'  => 'Games',
 			'show_in_menu' => true,
 			'capability_type' => 'post',
 			'hierarchical' => false,
-			'rewrite' => array('slug' => 'game'),
+			'rewrite' => array('slug' => $settings->get_option( 'archive_slug', 'cloudarcade_basics_settings', 'game' )),
 			'query_var' => true,
 			'menu_icon' => 'dashicons-games',
 			'has_archive' => true,

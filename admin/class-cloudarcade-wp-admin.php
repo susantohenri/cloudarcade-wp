@@ -141,7 +141,18 @@ class Cloudarcade_Wp_Admin {
                     'sanitize_callback' => 'floatval'
                 ),
                 
-            ),
+                array(
+                    'name'              => 'archive_slug',
+                    'label'             => __( 'Archive slug', CA_TEXTDOMAIN ),
+                    'desc'              => __( '', CA_TEXTDOMAIN ),
+                    'placeholder'       => __( 'game', CA_TEXTDOMAIN ),
+                    'step'              => '1',
+                    'type'              => 'text',
+                    'default'           => 'game',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ),
+
+			),
             'cloudarcade_db_settings' => array(
            
                 array(
