@@ -646,14 +646,19 @@ class cloudarcadeSettingsAPI {
     }
 
     function validate_db_connection ($option) {
+        if (isset($_POST['validated'])) return $option;
+        $_POST['validated'] = true;
         if (@mysqli_connect(
             $option['db_host'],
             $option['db_user'],
             $option['db_pass']
-        )) return $option;
-        else {
+        )) {
+            add_settings_error('cloudarcade_db_settings','cloudarcade_db_settings','Database Connection Success! setting successfully saved!','success');
+            return $option;
+        } else {
             foreach (['name', 'user', 'host', 'pass'] as $db_attr)
                 $option["db_{$db_attr}"] = $this->get_option( "db_{$db_attr}", 'cloudarcade_db_settings', '' );
+
             add_settings_error('cloudarcade_db_settings','cloudarcade_db_settings','Invalid Credentials! setting not saved!','error');
             return $option;
         }
