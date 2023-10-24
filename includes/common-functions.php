@@ -110,6 +110,7 @@ function cawp_sync_games() {
         }
     }
     // Return a success message
+    cawp_delete_unused_categories();
     return $count_newly_added_games." games added. ".$count_exist_games." already exist!";
 }
 
@@ -131,4 +132,17 @@ function cawp_delete_all_game_posts() {
 
     // Return a success message
     return count($game_posts) . ' games removed.';
+}
+
+function cawp_delete_unused_categories () {
+    $terms = get_terms( [
+        'taxonomy'               => 'game_category',
+        'hide_empty'             => false,
+    ] );
+
+    foreach ( $terms as $t ) {
+        if ( 0 === $t->count ) {
+            wp_delete_term( $t->term_id, 'game_category' );
+        }
+    }
 }
