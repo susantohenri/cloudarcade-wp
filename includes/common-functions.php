@@ -12,6 +12,9 @@ function cawp_sync_games() {
     // Get all games from the second database
     $games = $second_db->get_results("SELECT * FROM games");
 
+    $game_categories = [];
+    foreach ($second_db->get_results("SELECT * FROM categories") as $cat) $game_categories[$cat->name] = $cat;
+
     // Loop through each game
     foreach($games as $game) {
         // Check if the game post already exists in WordPress based on some unique identifier (e.g., game ID)
@@ -48,7 +51,7 @@ function cawp_sync_games() {
                         if ($term) {
                             $term_ids[] = $term['term_id'];
                         } else {
-                            $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug));
+                            $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug, 'description' => $game_categories[$category]->description));
                             if (!is_wp_error($new_term) && isset($new_term['term_id'])) {
                                 $term_ids[] = $new_term['term_id'];
                             }
@@ -94,7 +97,7 @@ function cawp_sync_games() {
                         if ($term) {
                             $term_ids[] = $term['term_id'];
                         } else {
-                            $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug));
+                            $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug, 'description' => $game_categories[$category]->description));
                             if (!is_wp_error($new_term) && isset($new_term['term_id'])) {
                                 $term_ids[] = $new_term['term_id'];
                             }
