@@ -24,6 +24,7 @@ $game_query = new WP_Query($args);
 
 <?php if ($game_query->have_posts()) :
     do_action( 'cloudarcade_wp_before_game_loop' );
+    get_header();
     ?>
     <header class="page-header">
         <h1 class="page-title cloudarcade-page-title"><?php post_type_archive_title(); ?></h1>
@@ -64,3 +65,4 @@ $game_query = new WP_Query($args);
 <?php endif; ?>
 
 <?php wp_reset_postdata(); // Always reset postdata after a custom query ?>
+<?php get_footer(); ?>
