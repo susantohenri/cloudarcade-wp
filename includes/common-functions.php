@@ -23,38 +23,40 @@ function cawp_sync_games() {
         ));
 
         if ($existing_game) {
-            $count_exist_games++;
-            // Game post already exists, update the custom fields
-            $game_post_id = $existing_game[0]->ID;
+            if ($existing_game[0]->post_modified != $game->last_modified) {
+                $count_exist_games++;
+                // Game post already exists, update the custom fields
+                $game_post_id = $existing_game[0]->ID;
 
-            update_post_meta($game_post_id, 'game_instructions', $game->instructions);
-            update_post_meta($game_post_id, 'game_thumb1', $game->thumb_1);
-            update_post_meta($game_post_id, 'game_thumb2', $game->thumb_2);
-            update_post_meta($game_post_id, 'game_url', $game->url);
-            update_post_meta($game_post_id, 'game_width', $game->width);
-            update_post_meta($game_post_id, 'game_height', $game->height);
-            // Update other custom fields as needed
+                update_post_meta($game_post_id, 'game_instructions', $game->instructions);
+                update_post_meta($game_post_id, 'game_thumb1', $game->thumb_1);
+                update_post_meta($game_post_id, 'game_thumb2', $game->thumb_2);
+                update_post_meta($game_post_id, 'game_url', $game->url);
+                update_post_meta($game_post_id, 'game_width', $game->width);
+                update_post_meta($game_post_id, 'game_height', $game->height);
+                // Update other custom fields as needed
 
-            // Assign categories
-            if (!empty($game->category)) {
-                $categories = explode(',', $game->category);
-                $term_ids = array();
+                // Assign categories
+                if (!empty($game->category)) {
+                    $categories = explode(',', $game->category);
+                    $term_ids = array();
 
-                foreach ($categories as $category) {
-                    $category_slug = sanitize_title($category);
-                    $term = term_exists($category, 'game_category');
+                    foreach ($categories as $category) {
+                        $category_slug = sanitize_title($category);
+                        $term = term_exists($category, 'game_category');
 
-                    if ($term) {
-                        $term_ids[] = $term['term_id'];
-                    } else {
-                        $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug));
-                        if (!is_wp_error($new_term) && isset($new_term['term_id'])) {
-                            $term_ids[] = $new_term['term_id'];
+                        if ($term) {
+                            $term_ids[] = $term['term_id'];
+                        } else {
+                            $new_term = wp_insert_term($category, 'game_category', array('slug' => $category_slug));
+                            if (!is_wp_error($new_term) && isset($new_term['term_id'])) {
+                                $term_ids[] = $new_term['term_id'];
+                            }
                         }
                     }
-                }
 
-                wp_set_post_terms($game_post_id, $term_ids, 'game_category', false);
+                    wp_set_post_terms($game_post_id, $term_ids, 'game_category', false);
+                }
             }
         } else {
             $count_newly_added_games++;
