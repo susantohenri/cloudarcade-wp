@@ -73,6 +73,8 @@ class Cloudarcade_Wp_Tpl_Manipulations {
         'current' => max(1, get_query_var('paged')),
         'total' => $game_query->max_num_pages
     	)); 
+
+		$out = "<div class='cloudarcade-pagination-container'><div class='cloudarcade-pagination'>{$out}</div></div>";
 		return $out;
 	}
 	public static function get_ordering_attribute(){

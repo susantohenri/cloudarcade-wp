@@ -90,6 +90,8 @@ function run_cloudarcade_wp() {
 	$plugin = new Cloudarcade_Wp();
 	$plugin->run();
 
+	wp_register_style('cloudarcade', plugin_dir_url(__FILE__) . 'cloudarcade.css');
+	wp_enqueue_style('cloudarcade');
 }
 run_cloudarcade_wp();
 
