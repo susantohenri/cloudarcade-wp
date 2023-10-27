@@ -17,7 +17,7 @@ class Cloudarcade_Wp_Post_Types {
 			'show_in_menu' => true,
 			'capability_type' => 'post',
 			'hierarchical' => false,
-			'rewrite' => array('slug' => $settings->get_option( 'archive_slug', 'cloudarcade_basics_settings', 'game' )),
+			// 'rewrite' => array('slug' => $settings->get_option( 'archive_slug', 'cloudarcade_basics_settings', 'game' )),
 			'query_var' => true,
 			'menu_icon' => 'dashicons-games',
 			'has_archive' => true,
