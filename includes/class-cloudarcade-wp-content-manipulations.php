@@ -53,7 +53,9 @@ class Cloudarcade_Wp_Content_Manipulations {
 	 */
 	function my_custom_content_after_page($content) {
 		// Check if we're inside the main loop in a single page.
-		if ( is_page('gamee') && in_the_loop() && is_main_query() ) {
+		$settings = new cloudarcadeSettingsAPI();
+		$game_list_page = $settings->get_option('game_list_page', 'cloudarcade_basics_settings', 'gamee');
+		if ( is_page($game_list_page) && in_the_loop() && is_main_query() ) {
 			remove_filter( 'the_content', 'my_custom_content_after_page' );
 			ob_start(); // start output buffering
 			include CLOUDARCADE_WP_ROOT. 'templates/archive-game.php';

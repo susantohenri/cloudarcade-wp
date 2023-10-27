@@ -152,6 +152,17 @@ class Cloudarcade_Wp_Admin {
                     'sanitize_callback' => 'sanitize_text_field'
                 ),
 
+                array(
+                    'name'              => 'game_list_page',
+                    'label'             => __( 'Game List Page', CA_TEXTDOMAIN ),
+                    'desc'              => __( '', CA_TEXTDOMAIN ),
+                    'placeholder'       => __( 'gamee', CA_TEXTDOMAIN ),
+                    'step'              => '1',
+                    'type'              => 'text',
+                    'default'           => 'gamee',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ),
+
 			),
             'cloudarcade_db_settings' => array(
            
