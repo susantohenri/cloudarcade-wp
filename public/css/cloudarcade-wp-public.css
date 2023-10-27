@@ -53,3 +53,21 @@
     height: 100%;
     z-index: 10;
 }
+
+.cloudarcade-pagination-container {
+    text-align: center;
+}
+
+.cloudarcade-pagination {
+    display: inline-block;
+}
+
+.cloudarcade-pagination>* {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    min-height: 42px;
+}
